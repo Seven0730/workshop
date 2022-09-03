@@ -37,21 +37,21 @@ jobs:
       run: echo ${{ steps.docker_build.outputs.digest }}
 
     - name: Send a Message 
-          id: slack
-          uses: slackapi/slack-github-action@v1.18.0
-          with:
-              payload: |
+      id: slack
+      uses: slackapi/slack-github-action@v1.18.0
+      with:
+          payload: |
+            {
+              "blocks": [
                 {
-                  "blocks": [
-                    {
-                      "type": "section",
-                      "text": {
-                        "type": "mrkdwn",
-                        "text": "Name: ${{ secrets.NAME }} \n Matriculation numbers: ${{ secrets.NUMBER }} \n Email: ${{ secrets.EMAIL }} \n Repo: ${{ github.repositoryUrl }} \n Image Name: ${{ secrets.IMAGE_NAME }}  \n Image url: ${{ secrets.IMAGE }}"
-                      }
-                    }
-                  ]
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "Name: ${{ secrets.NAME }} \n Matriculation numbers: ${{ secrets.NUMBER }} \n Email: ${{ secrets.EMAIL }} \n Repo: ${{ github.repositoryUrl }} \n Image Name: ${{ secrets.IMAGE_NAME }}  \n Image url: ${{ secrets.IMAGE }}"
+                  }
                 }
-          env:
-              SLACK_WEBHOOK_URL: ${{ secrets.SLACKURL }}
-              SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
+              ]
+            }
+      env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACKURL }}
+          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
